@@ -1,6 +1,10 @@
 import * as Yup from 'yup';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import cx from 'classnames';
+import axios from 'axios';
 import css from './style.scss';
+
+import { LoadingSpinner } from './icons/LoadingSpinner'
 
 const initialValues = {
   firstName: '',
@@ -10,18 +14,22 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required(),
-  lastName: Yup.string().required(),
+  firstName: Yup.string().required('First Name is required.'),
+  lastName: Yup.string().required('Last Name is required.'),
   mobileNumber: Yup.string()
     .matches(/^\d{11}$/, 'Phone number must be exactly 11 digits.')
-    .required(),
+    .required('Phone number is required.'),
   email: Yup.string()
     .email('Invalid email.')
-    .required(),
+    .required('Email is required.'),
 });
 
 const Input = ({ field, form, ...props }) => {
   return ( <input {...field} {...props} /> )
+}
+
+const ErrorMessageText = ({ children }) => {
+  return <span className={css.errorMessage}>{children}</span>
 }
 
 const ContactForm = () => {
@@ -29,12 +37,13 @@ const ContactForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log({ values });
+      onSubmit={async (values, { setSubmitting }) => {
+        await axios.post('https://tangerine-api.herokuapp.com/early-access', values);
+        setSubmitting(false);
       }}
-      render={(props) => {
+      render={({ isSubmitting }) => {
         return (
-          <Form>
+          <Form className={css.form}>
             <div className={css.formgroup}>
               <label className={css.formlabel}>First Name</label>
               <Field
@@ -43,6 +52,7 @@ const ContactForm = () => {
                 className={css.input}
                 component={Input}
               />
+              <ErrorMessage name="firstName" component={ErrorMessageText} />
             </div>
 
             <div className={css.formgroup}>
@@ -53,6 +63,7 @@ const ContactForm = () => {
                 className={css.input}
                 component={Input}
               />
+              <ErrorMessage name="lastName" component={ErrorMessageText} />
             </div>
 
             <div className={css.formgroup}>
@@ -63,6 +74,7 @@ const ContactForm = () => {
                 className={css.input}
                 component={Input}
               />
+              <ErrorMessage name="mobileNumber" component={ErrorMessageText} />
             </div>
 
             <div className={css.formgroup}>
@@ -73,10 +85,21 @@ const ContactForm = () => {
                 className={css.input}
                 component={Input}
               />
+              <ErrorMessage name="email" component={ErrorMessageText} />
             </div>
 
             <div className={css.formgroup}>
-              <button className={css.button} type="submit">Submit</button>
+              <button 
+                className={css.button}
+                className={cx(css.button, { [css.isLoading]: isSubmitting })}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Submit
+                <LoadingSpinner 
+                  className={cx(css.loadingSpinner, { [css.isLoading]: isSubmitting })}
+                />
+              </button>
             </div>
           </Form>
         )

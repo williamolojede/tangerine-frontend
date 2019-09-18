@@ -1,31 +1,39 @@
+.form {
+    display: grid;
+    max-width: 500px;
+    grid-template-columns: 1fr;
+    grid-gap: 1rem;
+
+    @media only screen and (min-width: 500px) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
 .formgroup {
     display: flex;
     flex-direction: column;
 
-    &:not(:last-of-type) {
-        margin-bottom: 1.5rem;
-    }
+    // &:not(:last-of-type) {
+    //     // margin-bottom: 1.5rem;
+    // }
 }
 
 .formlabel {
-    text-transform: uppercase;
+    // text-transform: uppercase;
     font-size: 1.2rem;
     margin-bottom: .5rem;
+    color: #00454A;
 }
 
 .input {
     padding: 0 1.5rem;
     border-radius: .5rem;
-    border: .1rem solid rgba(135, 150, 165, 0.15);
+    border: .1rem solid #00454A;
     background: transparent;
-    color: #2b3035;
+    color: #00454A;
     height: 5rem;
     font-size: 1.7rem;
     &:focus {
         outline: 0!important;
-    }
-    &:invalid {
-        border: .1rem dashed red;
     }
 }
 
@@ -40,4 +48,27 @@
     padding: 1.5rem;
     border-radius: .5rem;
     border: .1rem solid transparent;
+    cursor: pointer;
+    position: relative;
+    transition: padding-right 0.2s ease-in-out 0s;
+}
+.button.isLoading {
+    padding-right: 5rem;
+}
+
+.loadingSpinner {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+.loadingSpinner.isLoading {
+    opacity: 1;
+}
+
+.errorMessage {
+    color: #FF6362;
+    font-size: 1.2rem;
+    margin-top: .5rem;
 }

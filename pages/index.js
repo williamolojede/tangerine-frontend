@@ -7,20 +7,18 @@ const Home = () => {
   return (
     <div className={css.pageRoot}>
       <div>
-        <Logo />
+        {/* <Logo /> */}
+        <img src="/static/tangerine2.png" height="50px" />
       </div>
 
-      <div>
-        <p>Coming soon.</p>
-        <p>
+      <div className={css.heroSection}>
+        <h1 className={css.hero}>Coming soon.</h1>
+        <p className={css.introText}>
           Build and protect wealth with Tangerine and secure your financial future. 
           Register below for early access and bonuses.
         </p>
       </div>
-
-      <div>
-        <ContactForm />
-      </div>
+      <ContactForm />
     </div>
   )
 }
