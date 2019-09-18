@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  font-size: 1.6rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: inherit;
+  font-style: inherit;
+  line-height: 1.5;
+}
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 62.5%;
+  font-family: inherit;
+  vertical-align: baseline;
+  line-height: 24px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.pageRoot {
+  padding: 20px;
+}
